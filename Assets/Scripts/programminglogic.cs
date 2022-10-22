@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class programminglogic : MonoBehaviour
 {
@@ -63,14 +64,16 @@ public class programminglogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return)) {
-
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            SceneManager.LoadScene("SampleScene");
         }
         //An if statement that will check and see if the user inputs certain text
         str = playerInputArea.text.Replace(" ", string.Empty);
         str = str.Replace("\n", string.Empty);
-        if (str.Contains(ifStatement.Ifer + openClosers.Paren + one.Io + closedClosers.Paren + openClosers.Bracket + closedClosers.Bracket) ) {
-            Debug.Log("test");
+        if (str.Contains(ifStatement.Ifer + openClosers.Paren + one.Io + closedClosers.Paren
+            + openClosers.Bracket + closedClosers.Bracket) ) {
+
+            statecontroller.doorOpenIf1 = true;
         }
 
     }

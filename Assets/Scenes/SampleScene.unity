@@ -134,6 +134,7 @@ GameObject:
   - component: {fileID: 65989387}
   - component: {fileID: 65989386}
   - component: {fileID: 65989385}
+  - component: {fileID: 65989388}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -189,6 +190,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &65989388
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 65989384}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 120c59afb9f05bb418ba7dbfa07f64e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &441842346
 GameObject:
   m_ObjectHideFlags: 0
@@ -248,10 +261,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 0dcd1946b54bf1f4bbc74f0f5fc4026d, type: 3}
-    m_FontSize: 20
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 2
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -327,7 +340,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 0dcd1946b54bf1f4bbc74f0f5fc4026d, type: 3}
-    m_FontSize: 20
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -580,7 +593,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129831067}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1717, y: -189, z: 3023.2642}
+  m_LocalPosition: {x: -1462, y: -63, z: 3012}
   m_LocalScale: {x: 6.28418, y: 6.28418, z: 6.28418}
   m_Children:
   - {fileID: 536397909}
@@ -600,7 +613,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a796a175683e64099c433d90019fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  i: 0
   pattern: 
   gameLabel: {fileID: 536397910}
   speed: 10
@@ -663,10 +675,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 0dcd1946b54bf1f4bbc74f0f5fc4026d, type: 3}
-    m_FontSize: 20
+    m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 2
+    m_MinSize: 1
     m_MaxSize: 40
     m_Alignment: 0
     m_AlignByGeometry: 0
@@ -742,7 +754,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 0dcd1946b54bf1f4bbc74f0f5fc4026d, type: 3}
-    m_FontSize: 20
+    m_FontSize: 15
     m_FontStyle: 2
     m_BestFit: 0
     m_MinSize: 0
@@ -810,7 +822,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -897,19 +909,10 @@ MonoBehaviour:
   playerCam: {fileID: 963194227}
   randomNum: 0
   userAccess: 
-  beforeLoad: 
   userInputValue: 
-  gameStart: 0
   system: 
   i: 0
-  middleUserAccess: 
   userAccessLength: 0
-  userCommands:
-  - help
-  - scan
-  - connect
-  connectedServers:
-  - camera01
   speed: 10
 --- !u!4 &1493198466
 Transform:
