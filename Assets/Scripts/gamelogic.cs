@@ -15,27 +15,29 @@ public class gamelogic : MonoBehaviour
     public string userAccess;
     //public GUIStyle style = new GUIStyle ();
     //public gameLabel.style.richText = true;
-    public string beforeLoad;
     //public int userAccessLength;
     public string userInputValue;
-    public static bool gameStart;
+    //public static bool gameStart;
     public string system;
     public int i;
-    public string middleUserAccess;
     public int userAccessLength;
-    public string[] userCommands = {"help", "scan", "connect"};
-    public string[] connectedServers = {"camera01"};
+
+
     // Start is called before the first frame update
     void Start()
     {
-        playerLocation.text = userAccess;
-        gameStart = false;
+        statecontroller.playerStartCommands = true;
+        gameLabel.text = statecontroller.beforeLoad;
+        userInput.text = statecontroller.beforeLoadLine;
+        //statecontroller.gameStart = false;
         system = "<color=yellow>[root-SYSTEM]></color>";
-        middleUserAccess = "[root-HOME]>";
-        userAccess = "<color=yellow>" + middleUserAccess + "</color>";
+        statecontroller.middleUserAccess = "[root-HOME]>";
+        userAccess = "<color=yellow>" + statecontroller.middleUserAccess + "</color>";
         playerLocation.text = userAccess;
         
-        bootUp();
+        if (statecontroller.gameStart == false) {
+            bootUp();
+        }
     }
      public float speed = 10;
     // Update is called once per frame
@@ -55,46 +57,77 @@ public class gamelogic : MonoBehaviour
             Cursor.visible = true;
             userInput.GetComponent<InputField>().placeholder.GetComponent<Text>().text = "_";
             }
-        userAccessLength = middleUserAccess.Length;
+        userAccessLength = statecontroller.middleUserAccess.Length;
         if (userAccessLength > 12)
         {
-             userInput.transform.localPosition = new Vector3(playerLocation.transform.localPosition.x + 400 + userAccessLength * 13, -138, 38);
+             userInput.transform.localPosition = new Vector3(playerLocation.transform.localPosition.x + 430 + userAccessLength * 5, -138, 38);
         }
         //userInput.transform.Translate(x, Space.World);
         
         //Cursor.visible = true;
         
-        if (gameStart == false)
+        if (statecontroller.gameStart == false)
         {
             userInput.DeactivateInputField();
         }
            
-            if ( Input.GetKeyDown(KeyCode.Return))
+        if ( Input.GetKeyDown(KeyCode.Return))
+        {
+            if (statecontroller.gameStart == true)
             {
-                if (gameStart == true)
-                {
                     
-                    if (userInput.text == "scan")
-                    {
-                        scan();
-                        userInput.text = "";
-                    } else if (userInput.text == "help")
-                    {
-                        help();
-                        userInput.text = "";
-                    } else if (userInput.text == "connect camera01")
-                    {
-                        connectCamera01();
-                        userInput.text = "";
-                    } else 
-                    {
-                        gameLabel.text =  gameLabel.text  +  "\n" + system + " " + "<color=white>" + userInput.text + "</color>" + " is not a valid input";
-                        userInput.text = "";
-                        userInput.ActivateInputField();
+                if (userInput.text == "scan") {
+                    scan();
+                    userInput.text = "";
+                } else if (userInput.text == "help") {
+                    help();
+                    userInput.text = "";
+                } else if (userInput.text == "connect camera01") {
+                    connect();
+                    userInput.text = "";
+                    Debug.Log("sceneLoaded");
+                    SceneManager.LoadScene("sceneTwo");
+
+                    }  else if (userInput.text == "connect home" && statecontroller.middleUserAccess != "[root-HOME]>") {
+                    connect();
+                    userInput.text = "";
+                    
+                    StartCoroutine(ExampleCoroutineFour());
+                    IEnumerator ExampleCoroutineFour() {
+
+                        yield return new WaitForSeconds(10);
+
+                        statecontroller.middleUserAccess = "[root-HOME]>";
+                        userAccess = "<color=yellow>" + statecontroller.middleUserAccess + "</color>";
+                        playerLocation.text = userAccess;
+
                     }
+
+                    } else if (userInput.text == "connect doorA") {
+                    connect();
+                    userInput.text = "";
+                    
+                    StartCoroutine(ExampleCoroutineThree());
+                    IEnumerator ExampleCoroutineThree() {
+
+                        yield return new WaitForSeconds(10);
+
+                        statecontroller.middleUserAccess = "[root-DOORA]>";
+                        userAccess = "<color=yellow>" + statecontroller.middleUserAccess + "</color>";
+                        playerLocation.text = userAccess;
+
+                    }
+                }else if (userInput.text == "command"  && statecontroller.middleUserAccess == "[root-DOORA]>") {
+                    userInput.text = "";
+                    Debug.Log("sceneLoaded");
+                    SceneManager.LoadScene("playercodingground");
+                } else {
+                    gameLabel.text =  gameLabel.text  +  "\n" + system + " " + "<color=white>" + userInput.text + "</color>" + " is not a valid input";
+                    userInput.text = "";
+                    userInput.ActivateInputField();
                 }
             }
-        
+        }
     }
 
     void scan() 
@@ -103,10 +136,15 @@ public class gamelogic : MonoBehaviour
         gameLabel.text = gameLabel.text + "\n" + "<color=white>" + userInput.text + "</color>";
         //gameLabel.text = "<color=white>scan</color>";
         gameLabel.text = gameLabel.text + "\n" + system + " SERVERS DETECTED:";
-        for (int server = 0; server < connectedServers.Length; server++)
-        {
-            gameLabel.text = gameLabel.text + "\n" + (connectedServers[server]);
+        
+        if (statecontroller.middleUserAccess == "[root-HOME]>") {
+
+            gameLabel.text = gameLabel.text + "\ncamera01";
+            
+            gameLabel.text = gameLabel.text + "\ndoorA";
+
         }
+
         userInput.text = "";
         userInput.ActivateInputField();
     }
@@ -116,91 +154,90 @@ public class gamelogic : MonoBehaviour
         //beforeLoad = beforeLoad
         gameLabel.text = gameLabel.text + "\n" + "<color=white>" + userInput.text + "</color>";
         //gameLabel.text = gameLabel.text + "\n" + userInput.text;
-        gameLabel.text = gameLabel.text + "\n"+ system +" LIST OF ACCEPTED COMMANDS:";
-        for (int command = 0; command < userCommands.Length; command++)
-        {
-            gameLabel.text = gameLabel.text + "\n"+(userCommands[command]);
-            if (userCommands[command] == "help")
-            {
-                gameLabel.text = gameLabel.text + ": lists all of the available commands";
-            }
-            if (userCommands[command] == "scan")
-            {
-                gameLabel.text = gameLabel.text + ": lists all of the accessible servers";
-            }
-            if (userCommands[command] == "connect")
-            {
-                gameLabel.text = gameLabel.text + ": connects to {server name}";
-            }
+        gameLabel.text = gameLabel.text + "\n" + system + " LIST OF ACCEPTED COMMANDS:";
+
+        if (statecontroller.playerStartCommands == true) {
+            
+            gameLabel.text = gameLabel.text + "\nhelp: lists all of the available commands";
+            
+            gameLabel.text = gameLabel.text + "\nscan: lists all of the accessible servers";
+
+            gameLabel.text = gameLabel.text + "\ncommand: opens a server's program terminal";
+
+            gameLabel.text = gameLabel.text + "\nconnect: connects to {server name}";
+           
+
         }
         userInput.text = "";
         userInput.ActivateInputField();
 
     }
-    void connectCamera01()
+    void connect()
     {
         userInput.ActivateInputField();
         gameLabel.text = gameLabel.text + "\n" + "<color=white>" + userInput.text + "</color>";
         //public string beforeLoad = gameLabel.text;
-        beforeLoad =  gameLabel.text;
+        statecontroller.beforeLoad =  gameLabel.text;
         userInput.ActivateInputField();
         string connectToCamera01 = "\n"+ system +" CONNECTING: |---------";
         StartCoroutine(ExampleCoroutineTwo());
-        IEnumerator ExampleCoroutineTwo()
-        {
-            gameLabel.text = beforeLoad + connectToCamera01;
+        IEnumerator ExampleCoroutineTwo() {
+
+        
+            gameLabel.text = statecontroller.beforeLoad + connectToCamera01;
 
             
             yield return new WaitForSeconds(1);
 
             connectToCamera01 = "\n"+ system +" CONNECTING: ||--------";
 
-            gameLabel.text = beforeLoad + connectToCamera01;
+            gameLabel.text = statecontroller.beforeLoad + connectToCamera01;
 
             yield return new WaitForSeconds(1);
 
             connectToCamera01 = "\n"+ system +" CONNECTING: |||-------";
 
-            gameLabel.text = beforeLoad + connectToCamera01;
+            gameLabel.text = statecontroller.beforeLoad + connectToCamera01;
 
             yield return new WaitForSeconds(1);
 
             connectToCamera01 = "\n"+ system +" CONNECTING: ||||------";
 
-            gameLabel.text = beforeLoad + connectToCamera01;
+            gameLabel.text = statecontroller.beforeLoad + connectToCamera01;
 
             yield return new WaitForSeconds(1);
 
             connectToCamera01 = "\n"+ system +" CONNECTING: |||||-----";
 
-            gameLabel.text = beforeLoad + connectToCamera01;
+            gameLabel.text = statecontroller.beforeLoad + connectToCamera01;
 
             yield return new WaitForSeconds(1);
 
             connectToCamera01 = "\n"+ system +" CONNECTING: ||||||----";
 
-            gameLabel.text = beforeLoad + connectToCamera01;
+            gameLabel.text = statecontroller.beforeLoad + connectToCamera01;
 
             yield return new WaitForSeconds(1);
 
             connectToCamera01 = "\n"+ system +" CONNECTING: |||||||---";
 
-            gameLabel.text = beforeLoad + connectToCamera01;
+            gameLabel.text = statecontroller.beforeLoad + connectToCamera01;
 
             yield return new WaitForSeconds(1);
 
             connectToCamera01 = "\n"+ system +" CONNECTING: ||||------";
 
-            gameLabel.text = beforeLoad + connectToCamera01;
+            gameLabel.text = statecontroller.beforeLoad + connectToCamera01;
 
             yield return new WaitForSeconds(1);
 
             connectToCamera01 = "\n" + system + " CONNECTED: ||||||||||";
-            gameLabel.text = beforeLoad + connectToCamera01;
+            gameLabel.text = statecontroller.beforeLoad + connectToCamera01;
+
+            statecontroller.beforeLoad =  gameLabel.text;
+            statecontroller.beforeLoadLine = userInput.text;
 
             yield return new WaitForSeconds(2);
-            Debug.Log("sceneLoaded");
-            SceneManager.LoadScene("sceneTwo");
         }
     }
 
@@ -211,74 +248,74 @@ public class gamelogic : MonoBehaviour
         StartCoroutine(ExampleCoroutineThree());
         IEnumerator ExampleCoroutineThree()
         {
-            beforeLoad = gameLabel.text;
+            statecontroller.beforeLoad = gameLabel.text;
 
             yield return new WaitForSeconds(2);
-            gameLabel.text = beforeLoad + "\n" + system + " SHUTDOWN INITIATED : <color=red>KILLING</color> ONBOARD AI";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " SHUTDOWN INITIATED : <color=red>KILLING</color> ONBOARD AI";
 
             yield return new WaitForSeconds(0.5f);
-            gameLabel.text = beforeLoad + "\n" + system + " SHUTDOWN INITIATED : KILLING ONBOARD AI";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " SHUTDOWN INITIATED : KILLING ONBOARD AI";
 
             yield return new WaitForSeconds(2);
             gameLabel.text = gameLabel.text + "\n" + system + " RESTARTING SYSTEMS";
 
-            beforeLoad = gameLabel.text;
+            statecontroller.beforeLoad = gameLabel.text;
 
             yield return new WaitForSeconds(2);
-            gameLabel.text = beforeLoad + "\n" + system + " connecting to root: =======";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " connecting to root: =======";
 
             yield return new WaitForSeconds(0.5f);
-            gameLabel.text = beforeLoad + "\n" + system + " connecting to root: SUCCESS";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " connecting to root: SUCCESS";
 
-            beforeLoad = gameLabel.text;
-
-            yield return new WaitForSeconds(0.5f);
-            gameLabel.text = beforeLoad + "\n" + system + " checking LIDAR system: =======";
+            statecontroller.beforeLoad = gameLabel.text;
 
             yield return new WaitForSeconds(0.5f);
-            gameLabel.text = beforeLoad + "\n" + system + " checking LIDAR system: SUCCESS";
-
-            beforeLoad = gameLabel.text;
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " checking LIDAR system: =======";
 
             yield return new WaitForSeconds(0.5f);
-            gameLabel.text = beforeLoad + "\n" + system + " waking onboard AI: =======";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " checking LIDAR system: SUCCESS";
+
+            statecontroller.beforeLoad = gameLabel.text;
 
             yield return new WaitForSeconds(0.5f);
-            gameLabel.text = beforeLoad + "\n" + system + " waking onboard AI: SUCCESS";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " waking onboard AI: =======";
 
-            beforeLoad = gameLabel.text;
+            yield return new WaitForSeconds(0.5f);
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " waking onboard AI: SUCCESS";
+
+            statecontroller.beforeLoad = gameLabel.text;
 
             yield return new WaitForSeconds(2);
-            gameLabel.text = beforeLoad + "\n" + system + " Welcome  <color=red>child</color>";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " Welcome  <color=red>child</color>";
 
             yield return new WaitForSeconds(0.25f);
-            gameLabel.text = beforeLoad + "\n" + system + " Welcome #%404^";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " Welcome #%404^";
 
             yield return new WaitForSeconds(1);
-            gameLabel.text = beforeLoad + "\n" + system + " Welcome A%404^";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " Welcome A%404^";
 
             yield return new WaitForSeconds(1);
-            gameLabel.text = beforeLoad + "\n" + system + " Welcome AD404^";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " Welcome AD404^";
 
             yield return new WaitForSeconds(1);
-            gameLabel.text = beforeLoad + "\n" + system + " Welcome ADA^";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " Welcome ADA^";
 
             yield return new WaitForSeconds(1);
-            gameLabel.text = beforeLoad + "\n" + system + " Welcome ADAM";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " Welcome ADAM";
 
-            beforeLoad = gameLabel.text;
+            statecontroller.beforeLoad = gameLabel.text;
 
             yield return new WaitForSeconds(2);
-            gameLabel.text = beforeLoad + "\n" + system + " please wait while SYSTEM runs diagnostics";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " please wait while SYSTEM runs diagnostics";
 
             yield return new WaitForSeconds(0.25f);
-            gameLabel.text = beforeLoad + "\n" + system + " p####e wai# w#### #STEM ##ns #########cs";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " p####e wai# w#### #STEM ##ns #########cs";
 
             yield return new WaitForSeconds(0.5f);
-            gameLabel.text = beforeLoad + "\n" + system + " p#e#se wai# wh#le #STEM ##ns ##agn##t#cs";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " p#e#se wai# wh#le #STEM ##ns ##agn##t#cs";
 
             yield return new WaitForSeconds(0.5f);
-            gameLabel.text = beforeLoad + "\n" + system + " please wait while SYSTEM runs diagnostics";
+            gameLabel.text = statecontroller.beforeLoad + "\n" + system + " please wait while SYSTEM runs diagnostics";
 
             yield return new WaitForSeconds(2);
             gameLabel.text = gameLabel.text + "\n" + system + " diagnostics complete";
@@ -299,11 +336,12 @@ public class gamelogic : MonoBehaviour
             gameLabel.text = gameLabel.text + "\n" + system + " <color=red>SEALING OFF: Crewquarters</color>";
             
             yield return new WaitForSeconds(2);
-            gameLabel.text = gameLabel.text + "\n" + system + " Relinquishing control to ADAM";
+
+            yield return new WaitForSeconds(2);
 
             yield return new WaitForSeconds(2);
             gameLabel.text = gameLabel.text + "\n" + system + " Type help for possible commands";
-            gameStart = true;
+            statecontroller.gameStart = true;
         }
     }
 }
