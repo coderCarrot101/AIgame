@@ -42,7 +42,7 @@ public class movetest : MonoBehaviour
         {
             if(transform.localPosition.y <= -50)
             {
-                 Vector3 scrollUp = new Vector3(0, 10000, 0);
+            Vector3 scrollUp = new Vector3(0, 10000, 0);
             transform.Translate(scrollUp * Time.deltaTime, Space.World);
             }
             

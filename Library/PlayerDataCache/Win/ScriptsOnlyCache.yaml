@@ -1,6 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - camShake
     - cameralook
     - gamelogic
     - movetest
@@ -50,25 +51,27 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1478}
+      Script: {instanceID: 1480}
     - Class: 114
-      Script: {instanceID: 1762}
+      Script: {instanceID: 1764}
     - Class: 114
-      Script: {instanceID: 2002}
+      Script: {instanceID: 2004}
     - Class: 114
-      Script: {instanceID: 2294}
+      Script: {instanceID: 2296}
     - Class: 114
-      Script: {instanceID: 2408}
+      Script: {instanceID: 2410}
     - Class: 114
-      Script: {instanceID: 2492}
+      Script: {instanceID: 2494}
     - Class: 114
-      Script: {instanceID: 2576}
+      Script: {instanceID: 2578}
     - Class: 114
-      Script: {instanceID: 2618}
+      Script: {instanceID: 2620}
     - Class: 114
-      Script: {instanceID: 2760}
+      Script: {instanceID: 2762}
     - Class: 114
-      Script: {instanceID: 4304}
+      Script: {instanceID: 3974}
+    - Class: 114
+      Script: {instanceID: 4308}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -107,23 +110,23 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1478}
+      Script: {instanceID: 1480}
     - Class: 114
-      Script: {instanceID: 2002}
+      Script: {instanceID: 2004}
     - Class: 114
-      Script: {instanceID: 2294}
+      Script: {instanceID: 2296}
     - Class: 114
-      Script: {instanceID: 2364}
+      Script: {instanceID: 2366}
     - Class: 114
-      Script: {instanceID: 2408}
+      Script: {instanceID: 2410}
     - Class: 114
-      Script: {instanceID: 2576}
+      Script: {instanceID: 2578}
     - Class: 114
-      Script: {instanceID: 2618}
+      Script: {instanceID: 2620}
     - Class: 114
-      Script: {instanceID: 2760}
+      Script: {instanceID: 2762}
     - Class: 114
-      Script: {instanceID: 2846}
+      Script: {instanceID: 2848}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -172,21 +175,21 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1478}
+      Script: {instanceID: 1480}
     - Class: 114
-      Script: {instanceID: 1684}
+      Script: {instanceID: 1686}
     - Class: 114
-      Script: {instanceID: 2002}
+      Script: {instanceID: 2004}
     - Class: 114
-      Script: {instanceID: 2294}
+      Script: {instanceID: 2296}
     - Class: 114
-      Script: {instanceID: 2408}
+      Script: {instanceID: 2410}
     - Class: 114
-      Script: {instanceID: 2576}
+      Script: {instanceID: 2578}
     - Class: 114
-      Script: {instanceID: 2618}
+      Script: {instanceID: 2620}
     - Class: 114
-      Script: {instanceID: 2760}
+      Script: {instanceID: 2762}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -278,7 +281,7 @@ ScriptsOnlyBuild:
     className: TMP_FontAsset
   - hash:
       serializedVersion: 2
-      Hash: b0dbd8216e58369f629b08416acc7024
+      Hash: 949ed19faa08b4cb30761d7353d3f58d
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: gamelogic
@@ -320,7 +323,7 @@ ScriptsOnlyBuild:
     className: CanvasScaler
   - hash:
       serializedVersion: 2
-      Hash: 3515da69b01ffc553a3c8e4b44721be5
+      Hash: 98068db117cd558b4e771750a50c7596
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: programminglogic
@@ -624,6 +627,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SubMeshUI
+  - hash:
+      serializedVersion: 2
+      Hash: c58ff49b90d2c97813137837a05aa8bc
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: camShake
   - hash:
       serializedVersion: 2
       Hash: fd68d84f33fad85aac38f2739c0ee270
