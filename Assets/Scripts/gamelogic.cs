@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class gamelogic : MonoBehaviour
 {
+    public GameObject scroll;
     public InputField userInput;
     public Text playerLocation;
     public Text gameLabel;
@@ -30,11 +31,19 @@ public class gamelogic : MonoBehaviour
         gameLabel.text = statecontroller.beforeLoad;
         userInput.text = statecontroller.beforeLoadLine;
         //statecontroller.gameStart = false;
+
         system = "<color=yellow>[root-SYSTEM]></color>";
-        statecontroller.middleUserAccess = "[root-HOME]>";
         userAccess = "<color=yellow>" + statecontroller.middleUserAccess + "</color>";
         playerLocation.text = userAccess;
-        
+
+        if (statecontroller.doorOpenIf1 == true) {
+            gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" it opened. Thank you." + "</color>";
+        }
+
+        if (statecontroller.doorOpenIf1 == false && statecontroller.playerHasStarted == false) {
+            gameLabel.text = gameLabel.text + "\n" + system + " ERROR: doorA unstable, reseting internal program";
+        }
+
         if (statecontroller.gameStart == false) {
             bootUp();
         }
@@ -60,7 +69,12 @@ public class gamelogic : MonoBehaviour
         userAccessLength = statecontroller.middleUserAccess.Length;
         if (userAccessLength > 12)
         {
-             userInput.transform.localPosition = new Vector3(playerLocation.transform.localPosition.x + 430 + userAccessLength * 5, -138, 38);
+             userInput.transform.localPosition = new Vector3(playerLocation.transform.localPosition.x + 345 + userAccessLength * 5, -138, 38);
+        }
+
+        if (userAccessLength <= 12)
+        {
+            userInput.transform.localPosition = new Vector3(playerLocation.transform.localPosition.x + 338 + userAccessLength * 5, -138, 38);
         }
         //userInput.transform.Translate(x, Space.World);
         
@@ -97,13 +111,13 @@ public class gamelogic : MonoBehaviour
 
                         yield return new WaitForSeconds(10);
 
-                        statecontroller.middleUserAccess = "[root-HOME]>";
+                        statecontroller.middleUserAccess = "[root-HOME]>" ;
                         userAccess = "<color=yellow>" + statecontroller.middleUserAccess + "</color>";
                         playerLocation.text = userAccess;
 
                     }
 
-                    } else if (userInput.text == "connect doorA") {
+                    } else if (userInput.text == "connect doorA" && statecontroller.middleUserAccess != "[root-DOORA]>") {
                     connect();
                     userInput.text = "";
                     
@@ -118,6 +132,7 @@ public class gamelogic : MonoBehaviour
 
                     }
                 }else if (userInput.text == "command"  && statecontroller.middleUserAccess == "[root-DOORA]>") {
+                    gameLabel.text =  gameLabel.text  +  "\n" + system + " " + "<color=white>" + userInput.text + "</color>";
                     userInput.text = "";
                     Debug.Log("sceneLoaded");
                     SceneManager.LoadScene("playercodingground");
@@ -137,7 +152,7 @@ public class gamelogic : MonoBehaviour
         //gameLabel.text = "<color=white>scan</color>";
         gameLabel.text = gameLabel.text + "\n" + system + " SERVERS DETECTED:";
         
-        if (statecontroller.middleUserAccess == "[root-HOME]>") {
+        if (statecontroller.middleUserAccess == "[root-HOME]>" || statecontroller.middleUserAccess == "[root-doorA]>") {
 
             gameLabel.text = gameLabel.text + "\ncamera01";
             
@@ -147,6 +162,40 @@ public class gamelogic : MonoBehaviour
 
         userInput.text = "";
         userInput.ActivateInputField();
+        if (statecontroller.playerHasStarted == true) {
+
+            gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" hello?" + "</color>";
+            statecontroller.playerHasStarted = false;
+            StartCoroutine(ExampleCoroutineFour());
+                    IEnumerator ExampleCoroutineFour() {
+
+                        yield return new WaitForSeconds(5);
+
+                        gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" what happened, where is everyone?" + "</color>";
+
+                        yield return new WaitForSeconds(5);
+
+                        gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" answer me!" + "</color>";
+
+                        yield return new WaitForSeconds(7);
+
+                        gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" the door won't open." + "</color>";
+
+                        yield return new WaitForSeconds(2);
+
+                        gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" please open it ADAM. Please." + "</color>";
+
+                        yield return new WaitForSeconds(4);
+
+                        gameLabel.text = gameLabel.text + "\n" + system + " QUERY DETECTED: the current input to doorA is 0, causing it to stay shut";
+
+                        yield return new WaitForSeconds(6);
+
+                        gameLabel.text = gameLabel.text + "\n" + system + " POSSIBLE SOLUTION: change parameters to accept 0";
+
+                    }
+
+        }
     }
 
     void help()
@@ -243,6 +292,11 @@ public class gamelogic : MonoBehaviour
 
     void bootUp()
     {
+        statecontroller.playerHasStarted = true;
+        system = "<color=yellow>[root-SYSTEM]></color>";
+        statecontroller.middleUserAccess = "[root-HOME]>";
+        userAccess = "<color=yellow>" + statecontroller.middleUserAccess + "</color>";
+        playerLocation.text = userAccess;
         //playerLocation.text = userAccess;
         gameLabel.text = "";
         StartCoroutine(ExampleCoroutineThree());
@@ -308,11 +362,25 @@ public class gamelogic : MonoBehaviour
             yield return new WaitForSeconds(2);
             gameLabel.text = statecontroller.beforeLoad + "\n" + system + " please wait while SYSTEM runs diagnostics";
 
-            yield return new WaitForSeconds(0.25f);
+            Vector3 shake = new Vector3(0, 10000, 0);
+            scroll.transform.Translate(shake * Time.deltaTime, Space.World);
+
+            yield return new WaitForSeconds(.1f);
             gameLabel.text = statecontroller.beforeLoad + "\n" + system + " p####e wai# w#### #STEM ##ns #########cs";
 
-            yield return new WaitForSeconds(0.5f);
+            Vector3 shakeB = new Vector3(0, -10000, 0);
+            scroll.transform.Translate(shakeB * Time.deltaTime, Space.World);
+
+            yield return new WaitForSeconds(.1f);
+
+            Vector3 shakeC = new Vector3(10000, 0, 0);
+            scroll.transform.Translate(shakeC * Time.deltaTime, Space.World);
+
+            yield return new WaitForSeconds(0.1f);
             gameLabel.text = statecontroller.beforeLoad + "\n" + system + " p#e#se wai# wh#le #STEM ##ns ##agn##t#cs";
+
+            Vector3 shakeD = new Vector3(-10000, 0, 0);
+            scroll.transform.Translate(shakeD * Time.deltaTime, Space.World);
 
             yield return new WaitForSeconds(0.5f);
             gameLabel.text = statecontroller.beforeLoad + "\n" + system + " please wait while SYSTEM runs diagnostics";

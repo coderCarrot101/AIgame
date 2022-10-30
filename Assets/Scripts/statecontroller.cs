@@ -11,4 +11,5 @@ public class statecontroller : MonoBehaviour
     public static string beforeLoad;
     public static string beforeLoadLine;
     public static int scrollAmount;
+    public static bool playerHasStarted;
 }
