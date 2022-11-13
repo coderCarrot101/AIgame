@@ -42,7 +42,7 @@ public class gamelogic : MonoBehaviour
             gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" it opened. Thank you." + "</color>";
         }
 
-        if (statecontroller.middleUserAccess == "[root-DOORA]>" && statecontroller.doorOpenIf1 == false && statecontroller.playerHasStarted == false) {
+        if (statecontroller.middleUserAccess == "[root-DOORA]>" && statecontroller.doorOpenIf1 == false /*&& statecontroller.playerHasStarted == false*/) {
             gameLabel.text = gameLabel.text + "\n" + system + " ERROR: doorA unstable, reseting internal program";
         }
 
@@ -209,7 +209,7 @@ public class gamelogic : MonoBehaviour
                         
                             yield return new WaitForSeconds(4);
 
-                            gameLabel.text = gameLabel.text + "\n" + system + " QUERY DETECTED: the current input to doorA is 0, causing it to stay shut";
+                            gameLabel.text = gameLabel.text + "\n" + system + " QUERY DETECTED: Current input to doorA is 0, keeping it shut";
                         
                         
 
@@ -318,6 +318,7 @@ public class gamelogic : MonoBehaviour
 
     void bootUp()
     {
+        statecontroller.doorOpenIf1 = false;
         statecontroller.playerHasStarted = true;
         system = "<color=yellow>[root-SYSTEM]></color>";
         statecontroller.middleUserAccess = "[root-HOME]>";

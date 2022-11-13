@@ -88,10 +88,10 @@ public class programminglogic : MonoBehaviour
         locationLabel.text = "<color=yellow>" + statecontroller.middleUserAccess + "</color>" + " press escape to exit";
         if (statecontroller.middleUserAccess == "[root-DOORA]>" && statecontroller.doorOpenIf1 == false) {
 
-            playerInputArea.text = "if (buttonA.Input == 0) { \n \n doorA.Open \n \n }";
+            playerInputArea.text = "if (buttonA.Input == 1) { \n \n doorA.Open \n \n }";
 
         } else {
-            playerInputArea.text = "if (buttonA.Input == 1) { \n \n doorA.Open \n \n }";
+            playerInputArea.text = "if (buttonA.Input == 0) { \n \n doorA.Open \n \n }";
         }
     }
 
