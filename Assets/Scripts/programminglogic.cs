@@ -116,7 +116,7 @@ public class programminglogic : MonoBehaviour
         str = str.Replace("\n", string.Empty);
 
          if (statecontroller.middleUserAccess == "[root-DOORA]>") {
-            if (str.Contains(ifStatement.Ifer + openClosers.Paren + startButton.FuncA + basicOp.EqualTo + one.Io + closedClosers.Paren
+            if (str.Contains(ifStatement.Ifer + openClosers.Paren + startButton.FuncA + basicOp.EqualTo + zero.Io + closedClosers.Paren
             + openClosers.Bracket + startDoor.FuncA + closedClosers.Bracket) ) {
 
             statecontroller.doorOpenIf1 = true;
