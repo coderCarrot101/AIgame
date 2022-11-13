@@ -13,6 +13,7 @@ public class gamelogic : MonoBehaviour
     public Text gameLabel;
     public Camera playerCam;
     public int randomNum;
+    public bool quest;
     public string userAccess;
     //public GUIStyle style = new GUIStyle ();
     //public gameLabel.style.richText = true;
@@ -27,6 +28,7 @@ public class gamelogic : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        quest = false;
         statecontroller.playerStartCommands = true;
         gameLabel.text = statecontroller.beforeLoad;
         userInput.text = statecontroller.beforeLoadLine;
@@ -40,13 +42,14 @@ public class gamelogic : MonoBehaviour
             gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" it opened. Thank you." + "</color>";
         }
 
-        if (statecontroller.doorOpenIf1 == false && statecontroller.playerHasStarted == false) {
+        if (statecontroller.middleUserAccess == "[root-DOORA]>" && statecontroller.doorOpenIf1 == false && statecontroller.playerHasStarted == false) {
             gameLabel.text = gameLabel.text + "\n" + system + " ERROR: doorA unstable, reseting internal program";
         }
 
         if (statecontroller.gameStart == false) {
             bootUp();
         }
+
     }
      public float speed = 10;
     // Update is called once per frame
@@ -69,25 +72,25 @@ public class gamelogic : MonoBehaviour
         userAccessLength = statecontroller.middleUserAccess.Length;
         if (userAccessLength > 12)
         {
-             userInput.transform.localPosition = new Vector3(playerLocation.transform.localPosition.x + 345 + userAccessLength * 5, -138, 38);
+             userInput.transform.localPosition = new Vector3(playerLocation.transform.localPosition.x + 345 + userAccessLength * 5, -144, 38);
         }
 
         if (userAccessLength <= 12)
         {
-            userInput.transform.localPosition = new Vector3(playerLocation.transform.localPosition.x + 338 + userAccessLength * 5, -138, 38);
+            userInput.transform.localPosition = new Vector3(playerLocation.transform.localPosition.x + 338 + userAccessLength * 5, -144, 38);
         }
         //userInput.transform.Translate(x, Space.World);
         
         //Cursor.visible = true;
         
-        if (statecontroller.gameStart == false)
+        if (statecontroller.gameStart == false | quest == true)
         {
             userInput.DeactivateInputField();
         }
            
         if ( Input.GetKeyDown(KeyCode.Return))
         {
-            if (statecontroller.gameStart == true)
+            if (statecontroller.gameStart == true && quest == false)
             {
                     
                 if (userInput.text == "scan") {
@@ -100,7 +103,13 @@ public class gamelogic : MonoBehaviour
                     connect();
                     userInput.text = "";
                     Debug.Log("sceneLoaded");
-                    SceneManager.LoadScene("sceneTwo");
+                    StartCoroutine(ExampleCoroutineFive());
+                    IEnumerator ExampleCoroutineFive() {
+
+                        yield return new WaitForSeconds(10);
+                        SceneManager.LoadScene("sceneTwo");
+
+                    }
 
                     }  else if (userInput.text == "connect home" && statecontroller.middleUserAccess != "[root-HOME]>") {
                     connect();
@@ -169,29 +178,46 @@ public class gamelogic : MonoBehaviour
             StartCoroutine(ExampleCoroutineFour());
                     IEnumerator ExampleCoroutineFour() {
 
+                        quest = true;
+
+                        
+
                         yield return new WaitForSeconds(5);
 
-                        gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" what happened, where is everyone?" + "</color>";
+                          gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" what happened, where is everyone?" + "</color>";
+                        
 
-                        yield return new WaitForSeconds(5);
+                        
 
-                        gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" answer me!" + "</color>";
+                            yield return new WaitForSeconds(5);
 
-                        yield return new WaitForSeconds(7);
+                            gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" answer me!" + "</color>";
+                        
+                        
 
-                        gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" the door won't open." + "</color>";
+                            yield return new WaitForSeconds(7);
 
-                        yield return new WaitForSeconds(2);
+                            gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" the door won't open." + "</color>";
+                        
 
-                        gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" please open it ADAM. Please." + "</color>";
+                        
+                            yield return new WaitForSeconds(2);
 
-                        yield return new WaitForSeconds(4);
+                            gameLabel.text = gameLabel.text + "\n" + "<color=cyan>" + "[@UNKOWN: console-message]" + "</color>" + "<color=white>" +" please open it ADAM. Please." + "</color>";
+                        
 
-                        gameLabel.text = gameLabel.text + "\n" + system + " QUERY DETECTED: the current input to doorA is 0, causing it to stay shut";
+                        
+                            yield return new WaitForSeconds(4);
 
-                        yield return new WaitForSeconds(6);
+                            gameLabel.text = gameLabel.text + "\n" + system + " QUERY DETECTED: the current input to doorA is 0, causing it to stay shut";
+                        
+                        
 
-                        gameLabel.text = gameLabel.text + "\n" + system + " POSSIBLE SOLUTION: change parameters to accept 0";
+                            yield return new WaitForSeconds(6);
+
+                            gameLabel.text = gameLabel.text + "\n" + system + " POSSIBLE SOLUTION: change parameters to accept 0";
+                        
+                        quest = false;
 
                     }
 
