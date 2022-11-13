@@ -12,3 +12,5 @@ STATE OF GAME 10/3/2022: so far I have a rough idea on how I want this to work, 
 STATE OF GAME 10/21/2022: I made a ton of quality of life improvements, and I am working on setting up the player-programming terminal still. I don't really know how I want the programming to work yet, but I'm thinking about it. NOW THE BIG, THE GREAT, THE WONDERFUL CHANGE! I added an exe file, so now you should be able to test it out for me and give lots of feed back please!
 
 STATE OF GAME 10/29/2022: I think I have how I am gonna have the player "program" down, it will be basically super minimal syntax sudo-code and there will really only be one answer. Which isn't realistic but this is just meant to be a horror puzzel game, not a pragamming sim. I have a basic quest set up that you should be able to do if you follow the instructions but I am gonna add a tutorial in the future. Next update I hope to add some static effects and maybe the start of SFX but we shall see.
+
+STATE OF GAME 11/12/2022: Bug fixes here and there, but the big thing is I added some cool background shaders. Looks very techy.
